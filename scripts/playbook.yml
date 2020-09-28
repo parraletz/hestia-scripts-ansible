@@ -1,0 +1,12 @@
+- hosts: localhost
+  become: yes
+  roles:
+    - roles/tools-role
+    - roles/enpass-role
+    - roles/containers-tools-role
+    - roles/virt-tools-role
+
+
+- hosts: localhost
+  roles:
+    - roles/misc-tools-role

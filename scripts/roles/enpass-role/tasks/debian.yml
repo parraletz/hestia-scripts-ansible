@@ -1,0 +1,25 @@
+---
+- name: Add specified repository into sources list
+  apt_repository:
+    repo: deb http://archive.canonical.com/ubuntu hardy partner
+    state: absent
+
+- name: Add key enpass repo
+  apt_key:
+    url:  https://apt.enpass.io/keys/enpass-linux.key
+    state: present
+  become: true
+
+- name: Enable enpass repo
+  apt_repository:
+    repo: deb https://apt.enpass.io/ stable main
+    state: present
+    filename: enpass
+    update_cache: yes
+  become: true
+
+- name: Install enpass
+  apt:
+    name: enpass
+    state: latest
+  become: true

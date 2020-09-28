@@ -1,0 +1,47 @@
+---
+- name: Upgrade OS
+  apt:
+    name: "*"
+    update_cache: yes
+    state: latest
+  become: true
+
+- name: Install terminal tooling starter pack
+  apt:
+    name: "{{ item }}"
+    update_cache: yes
+    state: latest
+  with_items:
+    - tmux
+    - tmate
+    - git
+    - zsh
+    - neovim
+    - openvpn
+    - network-manager-openconnect-gnome
+    - network-manager-openconnect
+    - openconnect
+
+- name: Install flameshot << screenshots tool >>
+  apt:
+    name: flameshot
+    state: latest
+
+- name: Add an apt key by id from a keyserver
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: C99B11DEB97541F0
+
+- name: Add github repository
+  apt_repository:
+    repo: deb https://cli.github.com/packages focal main
+    state: present
+    filename: github
+    update_cache: yes
+
+- name: Install github cli tool
+  apt:
+    name: gh
+    state: latest
+
+

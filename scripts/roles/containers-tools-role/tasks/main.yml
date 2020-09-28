@@ -1,0 +1,7 @@
+---
+- include: debian.yml
+  when: ansible_os_family == 'Debian'
+
+- include: popos.yml
+  when: ansible_distribution == 'Pop!_OS'
+

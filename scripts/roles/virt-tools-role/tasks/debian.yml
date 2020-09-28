@@ -1,0 +1,14 @@
+- name: Install libvirtd
+  apt:
+    name: "{{ item }}"
+    state: latest
+  become: yes
+  with_items:
+    - qemu-kvm 
+    - libvirt-daemon-system
+
+- name: Enable libvirtd
+  systemd:
+    name: libvirtd
+    state: started
+    enabled: yes

@@ -1,0 +1,26 @@
+---
+- name: Install the best f*ck terminal emulator
+  apt:
+    name: alacritty
+    update_cache: yes
+    state: latest
+
+- name: Install vscode
+  apt:
+    name: code
+    update_cache: yes
+    state: latest
+
+- name: Install flameshot << screenshots tool >>
+  apt:
+    name: flameshot
+    state: latest
+
+- name: Install slack << OCC >>
+  apt:
+    name: slack-desktop
+    state: latest
+
+
+
+
