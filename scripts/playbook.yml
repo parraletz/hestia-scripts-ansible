@@ -5,8 +5,14 @@
     - roles/enpass-role
     - roles/containers-tools-role
     - roles/virt-tools-role
-
+  vars:
+    slack_url: https://downloads.slack-edge.com/linux_releases/slack-4.9.1-0.1.fc21.x86_64.rpm
+    hostname: #sethostname
 
 - hosts: localhost
   roles:
     - roles/misc-tools-role
+  vars: 
+    python_pyenv_version: 3.8.6
+    go_goenv_version: 1.16
+    node_nvm_version: latest

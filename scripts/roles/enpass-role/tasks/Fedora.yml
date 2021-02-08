@@ -1,0 +1,10 @@
+---
+- name: Download Enpass repo
+  get_url:
+    url: https://yum.enpass.io/enpass-yum.repo
+    dest: /etc/yum.repos.d/enpass-yum.repo
+
+- name: Install Enpass
+  dnf:
+    name: enpass
+    state: latest

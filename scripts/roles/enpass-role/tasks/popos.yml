@@ -21,6 +21,4 @@
     name: slack-desktop
     state: latest
 
-
-
-
+- include: debian.yml

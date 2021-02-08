@@ -4,4 +4,8 @@
 
 - include: popos.yml
   when: ansible_distribution == 'Pop!_OS'
+  
+- include: Fedora.yml
+  when: ansible_distribution == 'Fedora'
+
 

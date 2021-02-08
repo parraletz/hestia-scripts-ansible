@@ -1,0 +1,40 @@
+- name: Download  and install minikube
+  get_url: 
+    url: https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+    dest: /usr/local/bin/minikube
+    mode: '0755'
+
+
+- name: Install podman
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+  - podman
+  - podman-compose
+
+    
+- name: Copy kubernetes repo
+  copy:
+    src: "{{ role_path }}/files/kubernetes.repo"
+    dest: /etc/yum.repos.d/kubernetes.repo
+
+- name: Install kubectl
+  dnf:
+    name: kubectl
+    state: latest
+
+- name: Install @virtualization
+  dnf:
+    name: '@virtualization'
+    state: present
+
+- name: Enable libvirtd
+  systemd:
+    name: libvirtd
+    state: started
+    enabled: yes
+
+
+  
+

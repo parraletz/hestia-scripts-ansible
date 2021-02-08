@@ -5,3 +5,11 @@
 - include: popos.yml
   when: ansible_distribution == 'Pop!_OS'
 
+- include: Fedora.yml
+  when: ansible_distribution == 'Fedora'
+
+- name: Set a hostname
+  hostname:
+    name: '{{ hostname }}'
+    use: systemd
+

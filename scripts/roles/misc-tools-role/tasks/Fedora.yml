@@ -1,3 +1,4 @@
+---
 - name: Install the spotify flatpak
   flatpak:
     name:  https://dl.flathub.org/repo/appstream/com.spotify.Client.flatpakref
@@ -21,35 +22,24 @@
     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
 
 - name: Dependecies Pyenv
-  apt:
-    name: 
-    - build-essential 
-    - libssl-dev
-    - zlib1g-dev
-    - libbz2-dev
-    - libreadline-dev
-    - libsqlite3-dev
-    - wget
-    - curl
-    - llvm
-    - libncurses5-dev
-    - libncursesw5-dev
-    - xz-utils
-    - tk-dev
-    - libffi-dev
-    - liblzma-dev
-    - python-openssl
-    - git
+  dnf:
+    name: "{{ item }}"
     state: latest
+  with_items:
+  - '@Development tools'
+  - zlib-devel
+  - bzip2
+  - bzip2-devel 
+  - readline-devel
+  - sqlite
+  - sqlite-devel
+  - openssl-devel 
+  - xz 
+  - xz-devel
+  - libffi-devel 
+  - findutils
   become: yes
 
-
-
-
-- name: pyenv install go version
+- name: pyenv
   shell: >
-    goenv install "{{ go_goenv_version }}"
-
-- name: pyenv install node version
-  shell: >
-    nvm install node
+    curl https://pyenv.run | bash

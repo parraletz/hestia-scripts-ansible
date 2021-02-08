@@ -1,0 +1,77 @@
+- name: Upgrade all packages
+  dnf:
+    name: "*"
+    state: latest
+    
+- name: Install terminal tooling starter pack
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+  - tmux
+  - tmate
+  - git
+  - zsh
+  - neovim
+
+- name: Install VPN clients
+  dnf:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - openvpn
+    - openconnect
+    - NetworkManager-openvpn-gnome
+    - NetworkManager-openvpn
+
+- name: Install flameshot << screenshots tool >>
+  dnf:
+    name: flameshot
+    state: latest
+    
+- name: Enable GitHub repository
+  get_url: 
+    url: https://cli.github.com/packages/rpm/gh-cli.repo
+    dest: /etc/yum.repos.d/gh-cli.repo
+
+
+- name: Install GitHub cli
+  dnf:
+    name: gh
+    state: latest
+    
+  
+
+
+- name: enable copr
+  yum_repository:
+      name: "copr:copr.fedorainfracloud.org:{{ item[0] }}:{{ item[1] }}"
+      file: "_copr:copr.fedorainfracloud.org:{{ item[0] }}:{{ item[1] }}"
+      description: "{{ item[2] }}"
+      baseurl: "{{ copr_url }}/results/{{ item[0] }}/{{ item[1] }}/fedora-$releasever-$basearch/"
+      gpgkey: "{{ copr_url }}/results/{{ item[0] }}/{{ item[1] }}/pubkey.gpg"
+      gpgcheck: yes
+      enabled: yes
+      skip_if_unavailable: yes
+  vars:
+      #copr_url: https://copr-be.cloud.fedoraproject.org
+      copr_url: https://download.copr.fedorainfracloud.org
+  loop:
+      - [pschyska, alacritty, "Copr repo for alacritty"]
+
+- name: Install the best f*ck terminal emulator
+  dnf:
+    name: alacritty
+    state: latest
+
+
+- name: Install visual studio code
+  dnf:
+    name: https://go.microsoft.com/fwlink/?LinkID=760867
+    state: latest
+
+- name: Install slack
+  dnf:
+    name: '{{ slack_url }}'
+    state: latest
+    disable_gpg_check: true
