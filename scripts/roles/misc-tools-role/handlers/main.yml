@@ -1,2 +1,5 @@
 ---
-# handlers file for misc-tools-role
+- name: restart snapd
+  ansible.builtin.service:
+    name: snapd
+    state: restarted

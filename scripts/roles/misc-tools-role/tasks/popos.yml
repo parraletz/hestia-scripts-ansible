@@ -9,16 +9,35 @@
     repo: https://github.com/syndbg/goenv.git
     dest: "{{ ansible_user_dir }}/.goenv"
     
-- name: Install zgen
-  git:
-    repo: https://github.com/tarjoilija/zgen.git
-    dest: "{{ ansible_user_dir }}/.zgen"
+- name: install tlp
+  apt:
+    name: tlp
+    state: latest
+  become: yes
 
 - name: nvm
   shell: >
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
   args:
     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+
+- name: install snap
+  apt: 
+    name: snapd
+    state: latest
+  become: yes
+
+- name: enable service snapd and ensure it is not masked
+  systemd:
+    name: snapd
+    enabled: yes
+    masked: no
+
+- name: Install authy
+  snap:
+    name: authy
+    channel: latest/beta
+  become: yes
 
 - name: Dependecies Pyenv
   apt:
@@ -43,13 +62,3 @@
     state: latest
   become: yes
 
-
-
-
-- name: pyenv install go version
-  shell: >
-    goenv install "{{ go_goenv_version }}"
-
-- name: pyenv install node version
-  shell: >
-    nvm install node

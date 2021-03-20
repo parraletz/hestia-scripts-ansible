@@ -6,8 +6,8 @@
     - roles/containers-tools-role
     - roles/virt-tools-role
   vars:
-    slack_url: https://downloads.slack-edge.com/linux_releases/slack-4.9.1-0.1.fc21.x86_64.rpm
-    hostname: #sethostname
+    slack_url: #
+    hostname: 7KK1M13
 
 - hosts: localhost
   roles:
