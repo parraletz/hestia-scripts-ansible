@@ -11,7 +11,11 @@
     
 - name: install tlp
   apt:
-    name: tlp
+    name: 
+    - tlp
+    - tp-smapi-dkms
+    - power-calibrate
+    - powertop
     state: latest
   become: yes
 
@@ -20,6 +24,33 @@
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
   args:
     creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+
+- name: Add Liquorix repo kernel
+  apt_repository:
+    repo: ppa:damentz/liquorix
+    update_cache: yes
+  become: yes
+
+- name: Install Liquorix kernel
+  apt:
+    name:
+    - linux-image-liquorix-amd64 
+    - linux-headers-liquorix-amd64
+  become: yes
+
+
+- name: add repo agornostal/ulauncher
+  apt_repository:
+    repo: ppa:agornostal/ulauncher
+    update_cache: yes
+  become: yes
+
+- name: install ulauncher
+  apt:
+    name: 
+    - ulauncher
+    - plank
+  become: yes
 
 - name: install snap
   apt: 
@@ -32,6 +63,25 @@
     name: snapd
     enabled: yes
     masked: no
+
+- name: Add key azlux repo
+  apt_key:
+    url:  https://azlux.fr/repo.gpg.key 
+    state: present
+  become: true
+
+- name: Enable azlux repo
+  apt_repository:
+    repo: deb http://packages.azlux.fr/debian/ testing main
+    state: present
+    filename: azlux
+    update_cache: yes
+  become: true
+
+- name: Installl gnome-tweaks
+  apt:
+    name: gnome-tweaks
+  become: yes
 
 - name: Install authy
   snap:
@@ -62,3 +112,35 @@
     state: latest
   become: yes
 
+- name: install tmux adds
+  apt:
+    name:
+      - xsel
+      - xclip
+  become: yes
+
+#- name: Update from git
+#  ansible.builtin.git:
+#    repo: "https://github.com/ryanoasis/nerd-fonts.git"
+#    dest: "{{ ansible_env.HOME }}/src/ikon/nerd-fonts"
+#    depth: 1
+#    force: yes
+
+#- name: Select fonts to install
+#  ansible.builtin.find:
+#    recurse: yes
+#    use_regex: yes
+#    paths: "{{ ansible_env.HOME }}/src/ikon/nerd-fonts/patched-fonts"
+#    patterns:
+#      - '^.*?((?!Windows).)*?\.ttf$'
+#  register: fonts_to_install
+
+#- debug: var=fonts_to_install
+
+#- ansible.builtin.copy:
+#    dest: "{{ ansible_env.HOME }}/.local/share/fonts/{{ item.path | basename }}"
+#    src: "{{ item.path }}"
+#    remote_src: yes
+#  loop: "{{ fonts_to_install.files }}"
+#  notify:
+#    - update font cache
