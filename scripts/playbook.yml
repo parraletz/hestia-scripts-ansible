@@ -7,7 +7,7 @@
     - roles/virt-tools-role
   vars:
     slack_url: #
-    hostname: 7KK1M13
+    hostname: << HOSTNAME >>
 
 - hosts: localhost
   roles:
